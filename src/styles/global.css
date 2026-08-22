@@ -1,0 +1,165 @@
+/* =========================================
+   WEBBUILDERS.DEV — Global CSS (React)
+   ========================================= */
+
+/* ── Tokens ── */
+:root {
+  --black: #1a1a1a;
+  --off-white: #f0ebe1;
+  --cream-mid: #e8e2d5;
+  --orange: #FF5A36;
+  --yellow: #FFD23F;
+  --teal: #2ec4b6;
+  --purple: #7c6fcd;
+  --blush: #e8d5d0;
+  --blue: #3a7bd5;
+  --text-muted: #6b6560;
+  --border: 2.5px solid var(--black);
+  --shadow: 4px 4px 0 var(--black);
+  --shadow-lg: 6px 6px 0 var(--black);
+  --radius: 16px;
+  --font-body: "Space Grotesk", sans-serif;
+  --font-mono: "Space Mono", monospace;
+}
+
+/* ── Reset ── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--black);
+  overflow-x: hidden;
+}
+ul { list-style: none; }
+a { text-decoration: none; color: inherit; }
+img, svg { display: block; max-width: 100%; }
+
+/* ── Typography helpers ── */
+.h-filled { font-weight: 900; letter-spacing: -0.03em; }
+.h-outline { font-weight: 900; -webkit-text-stroke: 2.5px var(--black); color: transparent; letter-spacing: -0.03em; }
+.h-accent { font-weight: 900; color: var(--orange); letter-spacing: -0.03em; }
+.h-accent-yellow { font-weight: 900; color: var(--yellow); letter-spacing: -0.03em; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  padding: 14px 28px;
+  border: var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translate(3px,3px); box-shadow: none !important; }
+.btn--nav { background: var(--black); color: #fff; box-shadow: var(--shadow); }
+.btn--nav:hover { box-shadow: var(--shadow-lg); transform: translate(-2px,-2px); }
+.btn--primary { background: var(--black); color: #fff; font-size: 0.9rem; padding: 16px 36px; box-shadow: var(--shadow-lg); }
+.btn--primary:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--black); }
+.btn--cta { background: var(--black); color: #fff; font-size: 1rem; padding: 20px 44px; box-shadow: var(--shadow-lg); border-radius: 100px; border-color: var(--black); }
+.btn--cta:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 rgba(0,0,0,0.4); }
+
+/* ── Tag ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  border: var(--border);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  background: var(--off-white);
+}
+
+/* ── Section shared ── */
+.section { border-bottom: var(--border); }
+.section__inner { max-width: 1400px; margin: 0 auto; padding: 80px 32px; }
+.section__label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; color: var(--orange); display: block; margin-bottom: 24px; }
+.section__aside { font-size: 0.9rem; color: var(--text-muted); max-width: 30ch; text-align: right; line-height: 1.5; }
+.section__header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; }
+.section__headline { font-size: clamp(2.4rem,5vw,4.5rem); line-height: 1; letter-spacing: -0.04em; margin-bottom: 56px; text-transform: uppercase; }
+.section__headline--full { font-size: clamp(1.6rem,3.5vw,3rem); margin-bottom: 48px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Reveal ── */
+[data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .ticker__track { animation: none; }
+}
+
+/* =========================================
+   PARALLAX — performance hints
+   ========================================= */
+.section__headline,
+.why__cards,
+.services__grid,
+.process__timeline,
+.works__headline,
+.works__grid {
+  will-change: transform;
+}
+
+/* Ensure parallax containers don't create overflow issues */
+.section { overflow: clip; }
+
+/* =========================================
+   FOOTER LINK — underline slide hover
+   ========================================= */
+.footer__link {
+  position: relative;
+}
+.footer__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background: #fff;
+  transition: width 0.25s ease;
+}
+.footer__link:hover::after { width: 100%; }
+
+/* =========================================
+   FRAMER MOTION — override will-change, keep overflow
+   ========================================= */
+.section { overflow: clip; }
+.cta { transform-origin: center center; }
+
+/* =========================================
+   REDUCED MOTION SAFETY NET
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================
+   LENIS SMOOTH SCROLLING BASE
+   ========================================= */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

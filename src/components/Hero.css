@@ -1,0 +1,316 @@
+/* =========================================
+   HERO — Banner Background SVG + Bricolage
+   ========================================= */
+
+.hero {
+  min-height: calc(100dvh - 72px);
+  display: flex;
+  flex-direction: column;
+  border-bottom: var(--border);
+  position: relative;
+  overflow: hidden;
+
+  /* ── SVG banner background ── */
+  background-image: url("/banner-bg.svg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: #fffce9; /* fallback matches SVG fill */
+}
+
+/* Remove old grain div — background is now the SVG */
+.hero__grain { display: none; }
+
+/* ── Main grid ── */
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 48px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Left column ── */
+.hero__eyebrow {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--orange);
+  margin-bottom: 22px;
+  text-transform: uppercase;
+}
+
+/* ── HEADLINE — Bricolage Grotesque, exact Figma spec ── */
+.hero__headline {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 4.4vw, 4rem);      /* scales from 64px base */
+  line-height: 1.02;
+  letter-spacing: 0.06em;                       /* 3.84 / 64 ≈ 0.06em */
+  color: #111318;
+  text-transform: uppercase;
+  word-wrap: break-word;
+  margin-bottom: 22px;
+}
+
+/* Mixed style spans */
+.hl { display: inline; }
+.hl--filled {
+  color: #111318;
+  -webkit-text-stroke: 0;
+}
+.hl--outline {
+  -webkit-text-stroke: 2px #111318;
+  color: transparent;
+}
+.hl--accent {
+  color: var(--orange);
+  -webkit-text-stroke: 0;
+}
+
+/* ── Rotating phrase roller — fixed-height overflow clip ── */
+.hero__phrase-roller {
+  display: block;
+  overflow: hidden;
+  /* Height = 2 lines of the headline font. line-height 1.02 × 2 lines × em */
+  height: calc(1.02em * 2 + 0.02em); /* tiny fudge so descenders aren't clipped */
+  position: relative;
+}
+.hero__phrase-inner {
+  display: block;
+  will-change: transform, opacity;
+}
+
+/* ── Sub-caption ── */
+.hero__sub {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #111318;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ── Body copy ── */
+.hero__body {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.72;
+  color: var(--text-muted);
+  max-width: 44ch;
+  margin-bottom: 36px;
+}
+
+/* ── Buttons ── */
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  padding: 14px 28px;
+  border-radius: 100px;
+  cursor: pointer;
+  border: 2px solid #111318;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.hero__btn:active { transform: translate(2px, 2px); box-shadow: none !important; }
+
+.hero__btn--dark {
+  background: #111318;
+  color: #fff;
+  box-shadow: 3px 3px 0 rgba(17,19,24,0.22);
+}
+.hero__btn--dark:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 rgba(17,19,24,0.2);
+}
+
+.hero__btn--light {
+  background: transparent;
+  color: #111318;
+  box-shadow: 3px 3px 0 #111318;
+}
+.hero__btn--light:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #111318;
+}
+
+/* ── Right — Illustration ── */
+.hero__right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero__illus {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 0.88;
+}
+
+.hero__illus-card {
+  width: 100%;
+  height: 100%;
+  background: #fffce9;
+  border: 2.5px solid #111318;
+  border-radius: 20px;
+  box-shadow: 5px 5px 0 #111318;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+.hero__illus-card:hover { transform: translate(-4px, -4px); }
+
+.hero__browser {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hero__browser-bar {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 10px 14px;
+  background: #f0ece2;
+  border-bottom: 2px solid #111318;
+  flex-shrink: 0;
+}
+.hero__browser-bar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #111318;
+  opacity: 0.18;
+}
+.hero__browser-bar span:first-child { background: var(--orange); opacity: 1; }
+
+.hero__browser-body {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.hero__svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Floating dots */
+.hero__dot {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.hero__dot--tl {
+  width: 52px;
+  height: 52px;
+  top: -14px;
+  right: 60px;
+  z-index: 2;
+  border: 2px solid #111318;
+  box-shadow: 2px 2px 0 #111318;
+}
+.hero__dot--br1 {
+  width: 60px;
+  height: 60px;
+  bottom: -16px;
+  right: -16px;
+  z-index: 2;
+  border: 2.5px solid #111318;
+  box-shadow: 3px 3px 0 #111318;
+}
+.hero__dot--br2 {
+  width: 18px;
+  height: 18px;
+  bottom: 28px;
+  right: 52px;
+  z-index: 2;
+  background: #ff7a4a;
+  opacity: 0.85;
+}
+
+.hero__sq {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--orange);
+  bottom: 12px;
+  left: 10px;
+  z-index: 2;
+  border: 1.5px solid #111318;
+}
+
+/* ── Ticker — light cream bar (matches reference) ── */
+.hero__ticker-wrap {
+  border-top: var(--border);
+  background: #000000;
+  padding: 20px 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.hero__ticker-inner {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  width: max-content;
+  animation: ticker-scroll 18s linear infinite;
+  padding-left: 48px;
+}
+.hero__ticker-inner span {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.hero__ticker-arrow {
+  color: var(--orange) !important;
+  font-size: 1.1rem !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .hero__inner { gap: 40px; padding: 48px 32px; }
+}
+@media (max-width: 900px) {
+  .hero__inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero__right { max-width: 360px; margin: 0 auto; }
+  .hero__headline { font-size: clamp(2.2rem, 7vw, 3.4rem); }
+}
+@media (max-width: 640px) {
+  .hero__inner { padding: 36px 20px; }
+  .hero__ticker-wrap { padding: 16px 20px; }
+  .hero__ticker-inner { gap: 20px; flex-wrap: wrap; }
+  .hero__illus { max-width: 300px; }
+}
+
+@keyframes ticker-scroll { 
+  from { transform: translateX(0); } 
+  to { transform: translateX(-50%); } 
+}

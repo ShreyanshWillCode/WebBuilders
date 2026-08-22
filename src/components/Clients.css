@@ -1,0 +1,13 @@
+﻿.logos .section__inner { padding: 60px 32px; }
+.logos .section__label { margin-bottom: 32px; }
+.logos__grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; }
+.logos__card { border: var(--border); border-radius: 12px; padding: 20px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+.logos__card:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+.logos__card--orange { background: var(--orange); color: #fff; }
+.logos__card--teal { background: var(--teal); color: #fff; }
+.logos__card--yellow { background: var(--yellow); }
+.logos__card--purple { background: var(--purple); color: #fff; }
+.logos__abbr { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; }
+.logos__name { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-align: center; }
+@media (max-width: 1200px) { .logos__grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 640px) { .logos__grid { grid-template-columns: repeat(2,1fr); } .logos .section__inner { padding: 48px 20px; } }

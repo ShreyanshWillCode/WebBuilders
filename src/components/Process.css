@@ -1,0 +1,112 @@
+.process__timeline { position: relative; margin-bottom: 56px; padding-top: 20px; }
+.process__line { position: absolute; top: 55px; left: 0; right: 0; height: 2px; background: rgba(26,26,26,0.15); z-index: 0; }
+.process__line-fill { position: absolute; top: 55px; left: 0; height: 2px; background: var(--black); z-index: 0; transform-origin: left; }
+.process__line-fill::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid var(--black);
+}
+.process__circle.is-active { box-shadow: 0 0 0 3px var(--yellow), 3px 3px 0 var(--black); }
+.process__steps { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; position: relative; z-index: 1; }
+.process__step { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.process__circle {
+  width: 56px; height: 56px; border-radius: 50%; border: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+  box-shadow: 3px 3px 0 var(--black); background: var(--off-white); flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.process__step:hover .process__circle { transform: scale(1.1); }
+.process__circle--red { background: var(--orange); color: #fff; }
+.process__circle--yellow { background: var(--yellow); }
+.process__circle--teal { background: var(--teal); color: #fff; }
+.process__step-info { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.process__step-info strong { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.process__step-info span { font-size: 0.68rem; color: var(--text-muted); font-weight: 500; }
+.stats { display: flex; align-items: stretch; border: var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: var(--yellow); }
+.stats__item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 32px 20px; text-align: center; }
+.stats__num { font-family: var(--font-mono); font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.stats__label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.stats__divider { width: 2px; background: var(--black); align-self: stretch; }
+@media (max-width: 900px) { .process__steps { grid-template-columns: repeat(3,1fr); } .process__line { display: none; } }
+@media (max-width: 640px) { .process__steps { grid-template-columns: repeat(2,1fr); } .stats { flex-direction: column; } .stats__divider { width: 100%; height: 2px; } }
+
+/* ── Stats slot-machine clip containers ── */
+.stats__num--clip {
+  display: block;
+  overflow: hidden;
+  line-height: 1;
+}
+.stats__num-inner {
+  display: block;
+}
+.stats__label--clip {
+  display: block;
+  overflow: hidden;
+}
+.stats__label-inner {
+  display: block;
+}
+
+/* ═══════════════════════════════════════════
+   ODOMETER — per-digit vertical reel
+   ═══════════════════════════════════════════ */
+
+/* The outer number container — digits sit inline */
+.odo__number {
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1;
+}
+
+/* Each digit: a fixed-height clipping window */
+.odo__window {
+  display: inline-block;
+  overflow: hidden;
+  height: 1em;           /* exactly one character tall */
+  line-height: 1;
+  vertical-align: top;
+}
+
+/* The vertical strip of 0-9 — scrolls via translateY */
+.odo__strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+/* Each digit cell in the reel */
+.odo__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1em;
+  line-height: 1;
+  /* Match the parent stats__num font settings exactly */
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+/* Non-digit chars (prefix <, suffix +, hrs) — just fade in */
+.odo__static {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* ═══════════════════════════════════════════
+   SCRAMBLE — fixed-width monospaced label
+   ═══════════════════════════════════════════ */
+.scramble {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;  /* keeps width stable during scramble */
+  letter-spacing: inherit;
+}
