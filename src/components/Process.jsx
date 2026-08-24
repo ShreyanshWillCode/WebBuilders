@@ -210,7 +210,8 @@ export default function Process() {
   const [activeStep, setActiveStep] = useState(-1);
   useEffect(() => {
     return tlProgress.on("change", (v) => {
-      setActiveStep(Math.floor(v * steps.length) - 1);
+      // Map 0-1 to 0-5 evenly. min() ensures we don't go out of bounds if v=1.
+      setActiveStep(Math.min(steps.length - 1, Math.floor(v * steps.length)));
     });
   }, [tlProgress]);
 

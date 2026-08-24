@@ -1,20 +1,16 @@
-import { useState, useRef } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useReducedMotion, useIsMobile } from "../hooks/useReducedMotion";
 import "./Works.css";
 import AnimatedSectionHeading from "./AnimatedSectionHeading";
 
 const projects = [
-  { num: "01", cat: "WEB APP",     name: "HOUSE RENTAL",          desc: "A modern house rental platform to browse, list, and manage rental properties.",                                                   category: "web",      img: "/projects/House.png",                  tech: ["React", "Node.js", "MongoDB", "Express"],         repo: "https://github.com/ShreyanshWillCode/House-Rental-",           live: "https://house-rental-blush.vercel.app/",                          fromY: 60 },
-  { num: "02", cat: "WEB APP",     name: "MINI-SEARCH ENGINE",    desc: "A lightweight search engine that crawls, indexes, and ranks pages using TF-IDF and BFS — built from scratch.",                 category: "python",   img: "/projects/gravity search.png",         tech: ["Python", "TF-IDF", "BFS", "Algorithms"],          repo: "https://github.com/ShreyanshWillCode/Mini-Search-Engine",       live: "https://mini-search-engine-eight.vercel.app/",                   fromY: 80 },
-  { num: "03", cat: "FREELANCE",   name: "ZAIGRO",               desc: "A freelance digital platform for a local food and grocery delivery service.",                                                    category: "freelance", img: "/projects/Zaigro.png",                 tech: ["React", "Web Delivery"],                          live: "https://zaigro.in/",                                              fromY: 60 },
-  { num: "04", cat: "WEB APP",     name: "EWALLET",              desc: "A secure digital wallet for managing real money transactions, featuring a sleek modern interface.",                              category: "web",      img: "/projects/Ewallet.png",                tech: ["React", "Tailwind CSS", "Node.js", "MongoDB"],    repo: "https://github.com/ShreyanshWillCode/User-Wallet-APP",         live: "https://ewallet-eight.vercel.app/",                               fromY: 80 },
-  { num: "05", cat: "WEB APP",     name: "MARS ROVER NAV",       desc: "A simulation of the Mars Rover mission with pathfinding algorithms and terrain mapping capabilities.",                          category: "python",   img: "/projects/Mars-Rover.png",             tech: ["JavaScript", "Three.js", "WebGL", "Algorithms"],  repo: "https://github.com/ShreyanshWillCode/Mars_Rover_Navigation_",   live: "https://mars-rover-navigationfrontend.vercel.app/",              fromY: 60 },
-  { num: "06", cat: "WEB APP",     name: "NOTIFICATION SERVICE", desc: "A real-time notification service built with WebSocket technology for instant message delivery.",                                category: "web",      img: "/projects/Notification_service.png",   tech: ["WebSocket", "Node.js", "Express", "React"],      repo: "https://github.com/ShreyanshWillCode/Notification_Service",     live: "https://notification-service-theta.vercel.app/",                 fromY: 80 },
-  { num: "07", cat: "WEB APP",     name: "SHAABDKOSH",           desc: "A modern dictionary application with word definitions, synonyms, and examples.",                                               category: "web",      img: "/projects/Dictionary.png",             tech: ["React", "API Integration", "CSS"],                repo: "https://github.com/ShreyanshWillCode/Dictionary_APP",           live: "https://shaabdkosh.vercel.app/",                                  fromY: 60 },
-  { num: "08", cat: "ML / AI",     name: "SPAM CLASSIFIER",      desc: "Machine learning model to classify emails as spam or not spam using NLP techniques.",                                           category: "python",   img: "/projects/Spam_email.png",             tech: ["Python", "Machine Learning", "NLP"],              repo: "https://github.com/ShreyanshWillCode/Spam_Email_Classifier",    live: "https://spam-email-classifier-five.vercel.app/",                 fromY: 80 },
-  { num: "09", cat: "WEB APP",     name: "WEATHER APP",          desc: "Real-time weather application with location-based forecasts.",                                                               category: "web",      img: "/projects/Weather.png",                tech: ["React", "Weather API", "Geolocation"],            repo: "https://github.com/ShreyanshWillCode/Weather_app",              live: "https://weather-app-blot.vercel.app/",                           fromY: 60 },
-  { num: "10", cat: "FREELANCE",   name: "DENTAL CLINIC DEMO",   desc: "A modern, responsive dental clinic website demo showcasing services, appointments, and clinic information.",                    category: "freelance", img: "/projects/dental.png",                 tech: ["React", "Responsive Design"],                    live: "https://dental-clinic-sample-swart.vercel.app/",                 fromY: 80 },
+  { num: "01", cat: "FREELANCE",   name: "VELORAGT",              desc: "A full-stack Reddit marketing platform — role-based dashboards for owners, distributors, members, and moderators managing campaigns and task queues at scale.", category: "freelance", slides: ["/projects/reddit1 (1).png", "/projects/reddit1 (2).png"],                                        tech: ["React", "Node.js", "RBAC", "WebSocket"],              live: "https://veloragt.in/",                           fromY: 60 },
+  { num: "02", cat: "FREELANCE",   name: "ZAIGRO",                desc: "A freelance digital platform for a local food and grocery delivery service.",                                                    category: "freelance", slides: ["/projects/Zaigro.png", "/projects/zaigroo.png"],                                                    tech: ["React", "Web Delivery"],                               live: "https://zaigro.in/",                             fromY: 70 },
+  { num: "03", cat: "FREELANCE",   name: "DENTAL CLINIC DEMO",    desc: "A modern, responsive dental clinic website demo showcasing services, appointments, and clinic information.",                    category: "freelance", slides: ["/projects/dental.png", "/projects/dental clinic.png", "/projects/dental clinic 2.png"],           tech: ["React", "Responsive Design"],                          live: "https://dental-clinic-sample-swart.vercel.app/", fromY: 80 },
+  { num: "04", cat: "WEB APP",     name: "HOUSE RENTAL",          desc: "A modern house rental platform to browse, list, and manage rental properties.",                                                category: "web",      slides: ["/projects/House.png", "/projects/House rental.png", "/projects/House rental2.png"],              tech: ["React", "Node.js", "MongoDB", "Express"],              repo: "https://github.com/ShreyanshWillCode/House-Rental-", live: "https://house-rental-blush.vercel.app/",         fromY: 60 },
+  { num: "05", cat: "WEB APP",     name: "MINI-SEARCH ENGINE",    desc: "A lightweight search engine that crawls, indexes, and ranks pages using TF-IDF and BFS — built from scratch.",                 category: "python",   img: "/projects/gravity search.png",                                                                               tech: ["Python", "TF-IDF", "BFS", "Algorithms"],               repo: "https://github.com/ShreyanshWillCode/Mini-Search-Engine", live: "https://mini-search-engine-eight.vercel.app/", fromY: 70 },
+  { num: "06", cat: "WEB APP",     name: "EWALLET",               desc: "A secure digital wallet for managing real money transactions, featuring a sleek modern interface.",                              category: "web",      img: "/projects/Ewallet.png",                                                                                      tech: ["React", "Tailwind CSS", "Node.js", "MongoDB"],         repo: "https://github.com/ShreyanshWillCode/User-Wallet-APP", live: "https://ewallet-eight.vercel.app/",              fromY: 80 },
 ];
 
 const filters = [
@@ -53,16 +49,7 @@ export default function Works() {
         <div className="works__header">
           <AnimatedSectionHeading direction="right">04 / SELECTED WORK</AnimatedSectionHeading>
           <div className="works__title-row">
-            <motion.h2
-              className="works__headline"
-              style={{ y: headY }}
-              initial={reduced ? false : { opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.6, ease }}
-            >
-              |Our Works
-            </motion.h2>
+            <TextRoll text="|Our Works" style={{ y: headY }} reduced={reduced} />
             <motion.p
               className="works__sub"
               initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -109,7 +96,9 @@ export default function Works() {
                 }
               >
                 <div className="project__thumb project__thumb--img">
-                  <img src={p.img} alt={p.name} className="project__screenshot" loading="lazy" />
+                  {p.slides
+                    ? <SlidingThumb slides={p.slides} name={p.name} />
+                    : <img src={p.img} alt={p.name} className="project__screenshot" loading="lazy" />}
                 </div>
                 <div className="project__info">
                   <div className="project__meta">
@@ -142,5 +131,108 @@ export default function Works() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ── Sliding thumbnail — gapless CSS strip ── */
+function SlidingThumb({ slides, name }) {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIdx(i => (i + 1) % slides.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [slides.length]);
+
+  return (
+    <div className="slide__track" aria-label={`${name} screenshots`}>
+      {/* Single flex strip — all images sit side by side, strip slides left */}
+      <motion.div
+        className="slide__strip"
+        animate={{ x: `-${idx * 100}%` }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {slides.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt={`${name} screenshot ${i + 1}`}
+            className="slide__img"
+            loading="lazy"
+          />
+        ))}
+      </motion.div>
+
+      {/* Dot indicators */}
+      <div className="slide__dots">
+        {slides.map((_, i) => (
+          <span key={i} className={`slide__dot${i === idx ? " slide__dot--active" : ""}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TEXT ROLL — per-character alternate roll
+   Even chars roll in from BELOW  (y: 120% → 0%)
+   Odd  chars roll in from ABOVE  (y:-120% → 0%)
+   clipPath clips only vertically so italic glyphs stay full.
+   Staggered spring — 40ms per char — classic cascade wave.
+   Replays every time section re-enters the viewport.
+   ───────────────────────────────────────────────────────────── */
+function TextRoll({ text, style, reduced }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: false, amount: 0.4 });
+
+  const chars = text.split("");
+
+  return (
+    <motion.h2
+      ref={ref}
+      className="works__headline"
+      style={style}
+      aria-label={text}
+    >
+      {chars.map((char, i) => {
+        const isSpace = char === " ";
+        const fromY = i % 2 === 0 ? "120%" : "-120%";
+
+        if (isSpace) {
+          return <span key={i} style={{ display: "inline-block", width: "0.3em" }} />;
+        }
+
+        return (
+          <span
+            key={i}
+            style={{
+              display: "inline-block",
+              verticalAlign: "bottom",
+              /* generous horizontal bleed for italic, tight vertical for roll clip */
+              clipPath: "inset(-5% -25% -5% -5%)",
+            }}
+          >
+            <motion.span
+              style={{ display: "inline-block" }}
+              animate={
+                inView && !reduced
+                  ? { y: "0%", opacity: 1 }
+                  : { y: fromY, opacity: 0 }
+              }
+              transition={{
+                type: "spring",
+                damping: 75,
+                stiffness: 200,
+                mass: 1,
+                delay: reduced ? 0 : i * 0.04,
+              }}
+            >
+              {char}
+            </motion.span>
+          </span>
+        );
+      })}
+    </motion.h2>
   );
 }
