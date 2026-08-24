@@ -1,18 +1,26 @@
 .process__timeline { position: relative; margin-bottom: 56px; padding-top: 20px; }
-.process__line { position: absolute; top: 55px; left: 0; right: 0; height: 2px; background: rgba(26,26,26,0.15); z-index: 0; }
-.process__line-fill { position: absolute; top: 55px; left: 0; height: 2px; background: var(--black); z-index: 0; transform-origin: left; }
-.process__line-fill::after {
-  content: "";
+
+/* ── New SVG Background Line ── */
+.process__svg-container {
   position: absolute;
-  right: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 8px solid var(--black);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
+.process__svg-path-bg {
+  stroke: rgba(26,26,26,0.15);
+  stroke-width: 2;
+  fill: none;
+}
+.process__svg-path-fill {
+  stroke: var(--black);
+  stroke-width: 2;
+  fill: none;
+}
+
 .process__circle.is-active { box-shadow: 0 0 0 3px var(--yellow), 3px 3px 0 var(--black); }
 .process__steps { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; position: relative; z-index: 1; }
 .process__step { display: flex; flex-direction: column; align-items: center; gap: 16px; }
@@ -35,8 +43,26 @@
 .stats__num { font-family: var(--font-mono); font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
 .stats__label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .stats__divider { width: 2px; background: var(--black); align-self: stretch; }
-@media (max-width: 900px) { .process__steps { grid-template-columns: repeat(3,1fr); } .process__line, .process__line-fill { display: none; } }
-@media (max-width: 640px) { .process__steps { grid-template-columns: repeat(2,1fr); } .stats { flex-direction: column; } .stats__divider { width: 100%; height: 2px; } }
+@media (max-width: 900px) {
+  /* 3 columns: snake back on row 2 */
+  .process__steps { grid-template-columns: repeat(3,1fr); }
+  .process__step:nth-child(4) { grid-column: 3; }
+  .process__step:nth-child(5) { grid-column: 2; }
+  .process__step:nth-child(6) { grid-column: 1; }
+}
+@media (max-width: 640px) {
+  /* 2 columns: snake back on row 2, forward on row 3 */
+  .process__steps { grid-template-columns: repeat(2,1fr); }
+  .process__step:nth-child(1) { grid-column: 1; }
+  .process__step:nth-child(2) { grid-column: 2; }
+  .process__step:nth-child(3) { grid-column: 2; }
+  .process__step:nth-child(4) { grid-column: 1; }
+  .process__step:nth-child(5) { grid-column: 1; }
+  .process__step:nth-child(6) { grid-column: 2; }
+  
+  .stats { flex-direction: column; }
+  .stats__divider { width: 100%; height: 2px; }
+}
 
 /* ── Stats slot-machine clip containers ── */
 .stats__num--clip {

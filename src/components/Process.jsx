@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, animate, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, animate, useInView, useAnimationFrame } from "framer-motion";
 import { useReducedMotion, useIsMobile } from "../hooks/useReducedMotion";
 import "./Process.css";
 import AnimatedSectionHeading from "./AnimatedSectionHeading";
@@ -190,6 +190,9 @@ export default function Process() {
   const isMobile = useIsMobile();
   const sectionRef = useRef(null);
   const timelineRef = useRef(null);
+  const containerRef = useRef(null);
+  const circleRefs = useRef([]);
+  const [pathData, setPathData] = useState("");
 
   /* Scroll progress scoped to the whole section */
   const { scrollYProgress: sectionProgress } = useScroll({
@@ -203,8 +206,63 @@ export default function Process() {
     offset: ["start 80%", "end 40%"],
   });
 
-  const rawFill = useTransform(tlProgress, [0, 1], ["0%", "100%"]);
+  const rawFill = useTransform(tlProgress, [0, 1], [0, 1]);
   const fillWidth = useSpring(rawFill, { stiffness: 80, damping: 22 });
+
+  const pathRef = useRef(null);
+  const arrowRef = useRef(null);
+
+  /* Track arrowhead along the path */
+  useAnimationFrame(() => {
+    if (!pathRef.current || !arrowRef.current || !pathData || reduced) return;
+    const totalLength = pathRef.current.getTotalLength();
+    if (totalLength === 0) return;
+
+    const currentLen = totalLength * fillWidth.get();
+    if (currentLen <= 0) {
+      arrowRef.current.style.opacity = 0;
+      return;
+    }
+    arrowRef.current.style.opacity = 1;
+
+    const pt = pathRef.current.getPointAtLength(currentLen);
+    const prevPt = pathRef.current.getPointAtLength(Math.max(0, currentLen - 1));
+    const angle = Math.atan2(pt.y - prevPt.y, pt.x - prevPt.x) * (180 / Math.PI);
+
+    arrowRef.current.style.transform = `translate(${pt.x}px, ${pt.y}px) rotate(${angle}deg)`;
+  });
+
+  /* Update SVG path based on circle positions */
+  useEffect(() => {
+    const updatePath = () => {
+      if (!containerRef.current) return;
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const points = circleRefs.current.map(el => {
+        if (!el) return null;
+        const rect = el.getBoundingClientRect();
+        return {
+          x: rect.left - containerRect.left + rect.width / 2,
+          y: rect.top - containerRect.top + rect.height / 2
+        };
+      });
+
+      if (points.length === steps.length && points.every(p => p !== null)) {
+        let d = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 1; i < points.length; i++) {
+          d += ` L ${points[i].x} ${points[i].y}`;
+        }
+        setPathData(d);
+      }
+    };
+
+    // Delay slightly to allow layout to settle, plus bind to resize
+    const timer = setTimeout(updatePath, 100);
+    window.addEventListener("resize", updatePath);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updatePath);
+    };
+  }, []);
 
   /* How many steps are "active" — one for every 1/n of scroll through the timeline */
   const [activeStep, setActiveStep] = useState(-1);
@@ -239,17 +297,28 @@ export default function Process() {
 
         {/* ── Scroll-driven timeline ── */}
         <div className="process__timeline" ref={timelineRef}>
-          {/* Base line */}
-          <div className="process__line" />
-          {/* Animated fill line */}
-          {!reduced && (
-            <motion.div
-              className="process__line-fill"
-              style={{ width: fillWidth }}
-            />
-          )}
+          <div className="process__steps" ref={containerRef}>
+            {/* SVG Snaking Background Line */}
+            <svg className="process__svg-container">
+              {pathData && <path d={pathData} className="process__svg-path-bg" />}
+              {pathData && !reduced && (
+                <>
+                  <motion.path
+                    ref={pathRef}
+                    d={pathData}
+                    className="process__svg-path-fill"
+                    style={{ pathLength: fillWidth }}
+                  />
+                  <polygon
+                    ref={arrowRef}
+                    points="-12,-6 0,0 -12,6"
+                    fill="var(--black)"
+                    style={{ transformOrigin: "0 0" }}
+                  />
+                </>
+              )}
+            </svg>
 
-          <div className="process__steps">
             {steps.map((s, i) => {
               const isActive = i <= activeStep;
               return (
@@ -263,6 +332,7 @@ export default function Process() {
                 >
                   <motion.div
                     className={`process__circle ${s.cls}${isActive && !reduced ? " is-active" : ""}`}
+                    ref={(el) => (circleRefs.current[i] = el)}
                     animate={
                       reduced ? {} : { scale: isActive ? 1.12 : 1 }
                     }
