@@ -25,10 +25,11 @@ export default function Meme() {
   return (
     <section className="meme" aria-label="Fun highlight" ref={sectionRef}>
       <div className="meme__inner">
+        <AnimatedSectionHeading direction="left" className="meme__label">
+          05 / THE NANA MEME
+        </AnimatedSectionHeading>
+
         <div className="meme__left">
-          <AnimatedSectionHeading direction="left" className="meme__label">
-            05 / THE NANA MEME
-          </AnimatedSectionHeading>
 
           <motion.h2
             className="meme__headline"
@@ -69,7 +70,7 @@ export default function Meme() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: 0.25, type: "spring", stiffness: 200, damping: 20 }}
             >
-              NP
+              <img src="/nana_patekar_graphic (1).svg" alt="Nana Patekar Graphic" style={{ width: "100%", height: "auto", display: "block" }} />
             </motion.div>
           </div>
         </div>

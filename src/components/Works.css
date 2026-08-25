@@ -1,6 +1,6 @@
 .works__header { margin-bottom: 40px; }
 .works__title-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
-.works__headline { font-size: clamp(2.5rem,5vw,4.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1; font-style: italic; }
+.works__headline { font-size: clamp(3rem,6vw,5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1; font-style: italic; }
 .works__sub { font-size: 0.9rem; color: var(--text-muted); max-width: 35ch; line-height: 1.5; text-align: right; }
 .works__filters { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
 .works__filter {

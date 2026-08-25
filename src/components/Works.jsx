@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useReducedMotion, useIsMobile } from "../hooks/useReducedMotion";
 import "./Works.css";
 import AnimatedSectionHeading from "./AnimatedSectionHeading";
+import TextRoll from "./TextRoll";
 
 const projects = [
   { num: "01", cat: "FREELANCE",   name: "VELORAGT",              desc: "A full-stack Reddit marketing platform — role-based dashboards for owners, distributors, members, and moderators managing campaigns and task queues at scale.", category: "freelance", slides: ["/projects/reddit1 (1).png", "/projects/reddit1 (2).png"],                                        tech: ["React", "Node.js", "RBAC", "WebSocket"],              live: "https://veloragt.in/",                           fromY: 60 },
@@ -49,7 +50,7 @@ export default function Works() {
         <div className="works__header">
           <AnimatedSectionHeading direction="right">04 / SELECTED WORK</AnimatedSectionHeading>
           <div className="works__title-row">
-            <TextRoll text="|Our Works" style={{ y: headY }} reduced={reduced} />
+            <TextRoll text="|Our Works" className="works__headline" style={{ y: headY }} reduced={reduced} />
             <motion.p
               className="works__sub"
               initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -171,68 +172,5 @@ function SlidingThumb({ slides, name }) {
         ))}
       </div>
     </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   TEXT ROLL — per-character alternate roll
-   Even chars roll in from BELOW  (y: 120% → 0%)
-   Odd  chars roll in from ABOVE  (y:-120% → 0%)
-   clipPath clips only vertically so italic glyphs stay full.
-   Staggered spring — 40ms per char — classic cascade wave.
-   Replays every time section re-enters the viewport.
-   ───────────────────────────────────────────────────────────── */
-function TextRoll({ text, style, reduced }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount: 0.4 });
-
-  const chars = text.split("");
-
-  return (
-    <motion.h2
-      ref={ref}
-      className="works__headline"
-      style={style}
-      aria-label={text}
-    >
-      {chars.map((char, i) => {
-        const isSpace = char === " ";
-        const fromY = i % 2 === 0 ? "120%" : "-120%";
-
-        if (isSpace) {
-          return <span key={i} style={{ display: "inline-block", width: "0.3em" }} />;
-        }
-
-        return (
-          <span
-            key={i}
-            style={{
-              display: "inline-block",
-              verticalAlign: "bottom",
-              /* generous horizontal bleed for italic, tight vertical for roll clip */
-              clipPath: "inset(-5% -25% -5% -5%)",
-            }}
-          >
-            <motion.span
-              style={{ display: "inline-block" }}
-              animate={
-                inView && !reduced
-                  ? { y: "0%", opacity: 1 }
-                  : { y: fromY, opacity: 0 }
-              }
-              transition={{
-                type: "spring",
-                damping: 75,
-                stiffness: 200,
-                mass: 1,
-                delay: reduced ? 0 : i * 0.04,
-              }}
-            >
-              {char}
-            </motion.span>
-          </span>
-        );
-      })}
-    </motion.h2>
   );
 }

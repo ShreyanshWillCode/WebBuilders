@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useReducedMotion, useIsMobile } from "../hooks/useReducedMotion";
 import "./Services.css";
 import AnimatedSectionHeading from "./AnimatedSectionHeading";
-
 const services = [
   { num: "01", title: "WEB DEVELOPMENT",      text: "Business sites, dashboards, portals and web apps.",       cls: "service__card--light",  entryY: 20 },
   { num: "02", title: "ANDROID DEVELOPMENT",  text: "Custom Android applications around your workflow.",       cls: "service__card--teal",   entryY: 35 },
@@ -26,57 +25,61 @@ export default function Services() {
   });
 
   return (
-    <section className="section services" id="services" ref={sectionRef}>
+    <motion.section 
+      className="section services" 
+      id="services" 
+      ref={sectionRef} 
+      initial={reduced ? false : { opacity: 0.001 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: false, amount: 0.1 }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
+    >
       <div className="section__inner">
         <AnimatedSectionHeading direction="left">
           03 / SERVICES
         </AnimatedSectionHeading>
 
         <div className="services__tags">
-          {tags.map((t, i) => (
-            <motion.span
-              className="tag"
-              key={t}
-              initial={reduced ? false : { opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.05, ease }}
-            >
+          {tags.map((t) => (
+            <span className="tag" key={t}>
               {t}
-            </motion.span>
+            </span>
           ))}
         </div>
 
-        <motion.h2
-          className="section__headline section__headline--full"
-          initial={reduced ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease }}
-        >
+        <h2 className="section__headline section__headline--full">
           <span className="h-filled">|YOUR BUSINESS. </span>
           <span className="h-outline">YOUR RULES. </span>
           <span className="h-filled">OUR BUILD.</span>
-        </motion.h2>
+        </h2>
 
         <div className="services__grid">
           {services.map((s, i) => (
-            <ServiceCard key={s.num} service={s} index={i} reduced={reduced} isMobile={isMobile} />
+            <ServiceCard 
+              key={s.num} 
+              service={s} 
+              index={i} 
+              reduced={reduced} 
+              isMobile={isMobile} 
+              scrollYProgress={scrollYProgress} 
+            />
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 
-function ServiceCard({ service, index, reduced, isMobile }) {
+function ServiceCard({ service, index, reduced, isMobile, scrollYProgress }) {
+  // Create a continuous wave parallax based on the index and scroll position
+  const waveAmplitude = 30; // px
+  const offset = index % 2 === 0 ? waveAmplitude : -waveAmplitude;
+  const yParallax = useTransform(scrollYProgress, [0, 1], [-offset, offset]);
+
   return (
     <motion.article
       className={`service__card ${service.cls}`}
-      initial={reduced ? false : { opacity: 0, y: service.entryY }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.55, delay: index * 0.09, ease: [0.25, 0.1, 0.25, 1] }}
+      style={{ y: reduced || isMobile ? 0 : yParallax }}
       whileHover={
         reduced || isMobile
           ? {}

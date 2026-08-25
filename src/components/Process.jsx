@@ -236,13 +236,19 @@ export default function Process() {
   useEffect(() => {
     const updatePath = () => {
       if (!containerRef.current) return;
-      const containerRect = containerRef.current.getBoundingClientRect();
       const points = circleRefs.current.map(el => {
         if (!el) return null;
-        const rect = el.getBoundingClientRect();
+        let x = 0;
+        let y = 0;
+        let current = el;
+        while (current && current !== containerRef.current) {
+          x += current.offsetLeft;
+          y += current.offsetTop;
+          current = current.offsetParent;
+        }
         return {
-          x: rect.left - containerRect.left + rect.width / 2,
-          y: rect.top - containerRect.top + rect.height / 2
+          x: x + el.offsetWidth / 2,
+          y: y + el.offsetHeight / 2
         };
       });
 
