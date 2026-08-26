@@ -1,4 +1,4 @@
-.process__timeline { position: relative; margin-bottom: 56px; padding-top: 20px; }
+.process__timeline { position: relative; margin-bottom: clamp(36px, 5vw, 56px); padding-top: 20px; }
 
 /* ── New SVG Background Line ── */
 .process__svg-container {
@@ -22,12 +22,12 @@
 }
 
 .process__circle.is-active { box-shadow: 0 0 0 3px var(--yellow), 3px 3px 0 var(--black); }
-.process__steps { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; position: relative; z-index: 1; }
-.process__step { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.process__steps { display: grid; grid-template-columns: repeat(6,1fr); gap: clamp(10px, 2vw, 16px); position: relative; z-index: 1; }
+.process__step { display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 2vw, 16px); }
 .process__circle {
-  width: 56px; height: 56px; border-radius: 50%; border: var(--border);
+  width: clamp(44px, 6vw, 56px); height: clamp(44px, 6vw, 56px); border-radius: 50%; border: var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+  font-family: var(--font-mono); font-size: clamp(0.65rem, 1.3vw, 0.8rem); font-weight: 700;
   box-shadow: 3px 3px 0 var(--black); background: var(--off-white); flex-shrink: 0;
   transition: transform 0.2s;
 }
@@ -36,12 +36,12 @@
 .process__circle--yellow { background: var(--yellow); }
 .process__circle--teal { background: var(--teal); color: #fff; }
 .process__step-info { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
-.process__step-info strong { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-.process__step-info span { font-size: 0.68rem; color: var(--text-muted); font-weight: 500; }
+.process__step-info strong { font-size: clamp(0.6rem, 1.2vw, 0.75rem); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.process__step-info span { font-size: clamp(0.58rem, 1.1vw, 0.68rem); color: var(--text-muted); font-weight: 500; }
 .stats { display: flex; align-items: stretch; border: var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: var(--yellow); }
-.stats__item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 32px 20px; text-align: center; }
-.stats__num { font-family: var(--font-mono); font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-.stats__label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.stats__item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: clamp(20px, 3.5vw, 32px) clamp(12px, 2vw, 20px); text-align: center; }
+.stats__num { font-family: var(--font-mono); font-size: clamp(1.5rem, 3vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.stats__label { font-size: clamp(0.65rem, 1.3vw, 0.75rem); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .stats__divider { width: 2px; background: var(--black); align-self: stretch; }
 @media (max-width: 900px) {
   /* 3 columns: snake back on row 2 */
@@ -115,7 +115,6 @@
   justify-content: center;
   height: 1em;
   line-height: 1;
-  /* Match the parent stats__num font settings exactly */
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
@@ -133,6 +132,6 @@
    ═══════════════════════════════════════════ */
 .scramble {
   display: inline-block;
-  font-variant-numeric: tabular-nums;  /* keeps width stable during scramble */
+  font-variant-numeric: tabular-nums;
   letter-spacing: inherit;
 }

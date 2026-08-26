@@ -1,6 +1,6 @@
-﻿.why__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.why__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2vw, 20px); }
 .why__card {
-  border: var(--border); border-radius: var(--radius); padding: 32px 28px;
+  border: var(--border); border-radius: var(--radius); padding: clamp(20px, 3.5vw, 32px) clamp(16px, 3vw, 28px);
   box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px;
   position: relative; transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: pointer;
 }
@@ -8,11 +8,11 @@
 .why__card--light { background: var(--off-white); }
 .why__card--orange { background: var(--orange); color: #fff; }
 .why__card--yellow { background: var(--yellow); }
-.why__num { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; opacity: 0.5; }
-.why__title { font-size: 0.9rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
-.why__text { font-size: 0.85rem; line-height: 1.6; flex: 1; }
+.why__num { font-family: var(--font-mono); font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: 700; opacity: 0.5; }
+.why__title { font-size: clamp(0.78rem, 1.6vw, 0.9rem); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.why__text { font-size: clamp(0.78rem, 1.5vw, 0.85rem); line-height: 1.6; flex: 1; }
 .why__card--light .why__text { color: var(--text-muted); }
 .why__arrow { align-self: flex-end; font-size: 1.3rem; font-weight: 700; opacity: 0.6; transition: opacity 0.2s, transform 0.2s; }
 .why__card:hover .why__arrow { opacity: 1; transform: translate(2px,-2px); }
-@media (max-width: 900px) { .why__cards { grid-template-columns: 1fr; } }
-@media (max-width: 640px) { .section__header { flex-direction: column; gap: 16px; } .section__aside { text-align: left; } }
+@media (max-width: 1024px) { .why__cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .why__cards { grid-template-columns: 1fr; } .section__header { flex-direction: column; gap: 16px; } .section__aside { text-align: left; } }

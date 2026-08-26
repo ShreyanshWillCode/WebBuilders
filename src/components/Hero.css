@@ -21,16 +21,16 @@
 /* Remove old grain div — background is now the SVG */
 .hero__grain { display: none; }
 
-/* ── Main grid ── */
+/* ── Main grid — ALWAYS side-by-side ── */
 .hero__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: clamp(16px, 4vw, 60px);
   align-items: center;
   flex: 1;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 60px 48px;
+  padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 48px);
   width: 100%;
   position: relative;
   z-index: 1;
@@ -39,48 +39,39 @@
 /* ── Left column ── */
 .hero__eyebrow {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 0.68rem;
+  font-size: clamp(0.52rem, 1.2vw, 0.68rem);
   font-weight: 800;
   letter-spacing: 0.16em;
   color: var(--orange);
-  margin-bottom: 22px;
+  margin-bottom: clamp(10px, 2vw, 22px);
   text-transform: uppercase;
 }
 
-/* ── HEADLINE — Bricolage Grotesque, exact Figma spec ── */
+/* ── HEADLINE — fully fluid at all sizes ── */
 .hero__headline {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 800;
-  font-size: clamp(2.6rem, 4.4vw, 4rem);      /* scales from 64px base */
+  font-size: clamp(1.3rem, 4.5vw, 4rem);
   line-height: 1.02;
-  letter-spacing: 0.06em;                       /* 3.84 / 64 ≈ 0.06em */
+  letter-spacing: 0.04em;
   color: #111318;
   text-transform: uppercase;
   word-wrap: break-word;
-  margin-bottom: 22px;
+  overflow-wrap: break-word;
+  margin-bottom: clamp(10px, 2vw, 22px);
 }
 
 /* Mixed style spans */
 .hl { display: inline; }
-.hl--filled {
-  color: #111318;
-  -webkit-text-stroke: 0;
-}
-.hl--outline {
-  -webkit-text-stroke: 2px #111318;
-  color: transparent;
-}
-.hl--accent {
-  color: var(--orange);
-  -webkit-text-stroke: 0;
-}
+.hl--filled { color: #111318; -webkit-text-stroke: 0; }
+.hl--outline { -webkit-text-stroke: 2px #111318; color: transparent; }
+.hl--accent { color: var(--orange); -webkit-text-stroke: 0; }
 
-/* ── Rotating phrase roller — fixed-height overflow clip ── */
+/* ── Rotating phrase roller ── */
 .hero__phrase-roller {
   display: block;
   overflow: hidden;
-  /* Height = 2 lines of the headline font. line-height 1.02 × 2 lines × em */
-  height: calc(1.02em * 2 + 0.02em); /* tiny fudge so descenders aren't clipped */
+  height: calc(1.02em * 2 + 0.02em);
   position: relative;
 }
 .hero__phrase-inner {
@@ -91,29 +82,29 @@
 /* ── Sub-caption ── */
 .hero__sub {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 0.68rem;
+  font-size: clamp(0.52rem, 1.2vw, 0.68rem);
   font-weight: 800;
   letter-spacing: 0.1em;
   color: #111318;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: clamp(8px, 1.5vw, 16px);
 }
 
 /* ── Body copy ── */
 .hero__body {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 0.9rem;
-  line-height: 1.72;
+  font-size: clamp(0.72rem, 1.5vw, 0.9rem);
+  line-height: 1.65;
   color: var(--text-muted);
   max-width: 44ch;
-  margin-bottom: 36px;
+  margin-bottom: clamp(16px, 3vw, 36px);
 }
 
 /* ── Buttons ── */
 .hero__actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: clamp(8px, 1.5vw, 14px);
   flex-wrap: wrap;
 }
 
@@ -123,9 +114,9 @@
   gap: 8px;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: clamp(0.6rem, 1.3vw, 0.78rem);
   letter-spacing: 0.06em;
-  padding: 14px 28px;
+  padding: clamp(8px, 1.8vw, 14px) clamp(14px, 2.5vw, 28px);
   border-radius: 100px;
   cursor: pointer;
   border: 2px solid #111318;
@@ -140,26 +131,21 @@
   color: #fff;
   box-shadow: 3px 3px 0 rgba(17,19,24,0.22);
 }
-.hero__btn--dark:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 rgba(17,19,24,0.2);
-}
+.hero__btn--dark:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 rgba(17,19,24,0.2); }
 
 .hero__btn--light {
   background: transparent;
   color: #111318;
   box-shadow: 3px 3px 0 #111318;
 }
-.hero__btn--light:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 #111318;
-}
+.hero__btn--light:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 #111318; }
 
-/* ── Right — Illustration ── */
+/* ── Right — Illustration — ALWAYS beside heading ── */
 .hero__right {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .hero__illus {
@@ -191,14 +177,14 @@
   display: flex;
   gap: 5px;
   align-items: center;
-  padding: 10px 14px;
+  padding: clamp(6px, 1vw, 10px) 14px;
   background: #f0ece2;
   border-bottom: 2px solid #111318;
   flex-shrink: 0;
 }
 .hero__browser-bar span {
-  width: 9px;
-  height: 9px;
+  width: clamp(6px, 1vw, 9px);
+  height: clamp(6px, 1vw, 9px);
   border-radius: 50%;
   background: #111318;
   opacity: 0.18;
@@ -219,35 +205,35 @@
   object-fit: contain;
 }
 
-/* Floating dots */
+/* Floating dots — scale down on small screens */
 .hero__dot {
   position: absolute;
   border-radius: 50%;
   background: var(--orange);
 }
 .hero__dot--tl {
-  width: 52px;
-  height: 52px;
-  top: -14px;
-  right: 60px;
+  width: clamp(24px, 4vw, 52px);
+  height: clamp(24px, 4vw, 52px);
+  top: clamp(-10px, -1.5vw, -14px);
+  right: clamp(30px, 5vw, 60px);
   z-index: 2;
   border: 2px solid #111318;
   box-shadow: 2px 2px 0 #111318;
 }
 .hero__dot--br1 {
-  width: 60px;
-  height: 60px;
-  bottom: -16px;
-  right: -16px;
+  width: clamp(28px, 4.5vw, 60px);
+  height: clamp(28px, 4.5vw, 60px);
+  bottom: clamp(-10px, -1.5vw, -16px);
+  right: clamp(-10px, -1.5vw, -16px);
   z-index: 2;
   border: 2.5px solid #111318;
   box-shadow: 3px 3px 0 #111318;
 }
 .hero__dot--br2 {
-  width: 18px;
-  height: 18px;
-  bottom: 28px;
-  right: 52px;
+  width: clamp(10px, 1.5vw, 18px);
+  height: clamp(10px, 1.5vw, 18px);
+  bottom: clamp(16px, 2.5vw, 28px);
+  right: clamp(30px, 4.5vw, 52px);
   z-index: 2;
   background: #ff7a4a;
   opacity: 0.85;
@@ -255,8 +241,8 @@
 
 .hero__sq {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: clamp(8px, 1.2vw, 12px);
+  height: clamp(8px, 1.2vw, 12px);
   background: var(--orange);
   bottom: 12px;
   left: 10px;
@@ -264,11 +250,11 @@
   border: 1.5px solid #111318;
 }
 
-/* ── Ticker — light cream bar (matches reference) ── */
+/* ── Ticker ── */
 .hero__ticker-wrap {
   border-top: var(--border);
   background: #000000;
-  padding: 20px 0;
+  padding: clamp(12px, 2vw, 20px) 0;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -283,7 +269,7 @@
 }
 .hero__ticker-inner span {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 0.82rem;
+  font-size: clamp(0.62rem, 1.3vw, 0.82rem);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -294,23 +280,22 @@
   font-size: 1.1rem !important;
 }
 
-/* ── Responsive ── */
-@media (max-width: 1024px) {
-  .hero__inner { gap: 40px; padding: 48px 32px; }
-}
-@media (max-width: 900px) {
-  .hero__inner { grid-template-columns: 1fr; gap: 40px; }
-  .hero__right { max-width: 360px; margin: 0 auto; }
-  .hero__headline { font-size: clamp(2.2rem, 7vw, 3.4rem); }
-}
+/* ── Responsive — grid STAYS 2-column at all widths ── */
 @media (max-width: 640px) {
-  .hero__inner { padding: 36px 20px; }
-  .hero__ticker-wrap { padding: 16px 20px; }
-  .hero__ticker-inner { gap: 20px; flex-wrap: wrap; }
-  .hero__illus { max-width: 300px; }
+  /* On very small phones: tighten border radius on card */
+  .hero__illus-card { border-radius: 12px; }
+  /* Outline stroke thinner so it doesn't look heavy when small */
+  .hl--outline { -webkit-text-stroke: 1.5px #111318; }
 }
 
-@keyframes ticker-scroll { 
-  from { transform: translateX(0); } 
-  to { transform: translateX(-50%); } 
+@media (max-width: 400px) {
+  .hero__inner { gap: 10px; }
+  .hero__btn { font-size: 0.58rem; padding: 7px 12px; }
 }
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+

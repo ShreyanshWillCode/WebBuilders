@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #fffce9; /* matches SVG banner bg — always solid */
+  background: #fffce9;
   border-bottom: var(--border);
   transition: box-shadow 0.2s;
 }
@@ -10,22 +10,24 @@
 .nav__inner {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: clamp(16px, 3vw, 32px);
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 32px;
-  height: 72px;
+  padding: 0 clamp(16px, 3vw, 32px);
+  height: clamp(60px, 8vw, 72px);
 }
+.nav__brand-wrapper { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.nav__brand-wrapper img { height: clamp(36px, 5.5vw, 48px); width: auto; display: block; }
 .nav__brand { display: flex; flex-direction: column; gap: 1px; flex-shrink: 0; }
-.nav__logo { font-weight: 800; font-size: 1rem; letter-spacing: 0.04em; line-height: 1; }
-.nav__sub { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em; color: var(--text-muted); }
-.nav__links { display: flex; gap: 36px; align-items: center; margin-left: auto; }
-.nav__link { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--black); transition: color 0.2s; }
+.nav__logo { font-weight: 800; font-size: clamp(0.78rem, 1.5vw, 1rem); letter-spacing: 0.04em; line-height: 1; }
+.nav__sub { font-size: clamp(0.5rem, 1vw, 0.6rem); font-weight: 500; letter-spacing: 0.08em; color: var(--text-muted); }
+.nav__links { display: flex; gap: clamp(20px, 3.5vw, 36px); align-items: center; margin-left: auto; }
+.nav__link { font-size: clamp(0.62rem, 1.2vw, 0.72rem); font-weight: 700; letter-spacing: 0.1em; color: var(--black); transition: color 0.2s; }
 .nav__link:hover { color: var(--orange); }
 .nav__hamburger { display: none; }
 .nav__mobile {
   background: #fffce9;
-  padding: 24px 32px;
+  padding: 24px clamp(16px, 4vw, 32px);
   border-top: var(--border);
   display: flex;
   flex-direction: column;
@@ -33,6 +35,10 @@
 }
 .nav__mobile ul { display: flex; flex-direction: column; gap: 16px; }
 .nav__mobile .btn--nav { align-self: flex-start; }
+
+@media (max-width: 768px) {
+  .nav__sub { display: none; }
+}
 
 @media (max-width: 640px) {
   .nav__links { display: none; }
@@ -58,6 +64,4 @@
   .nav__hamburger span.open:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
   .nav__hamburger span.open:nth-child(2) { opacity: 0; }
   .nav__hamburger span.open:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-  .nav__inner { padding: 0 20px; }
-  .nav__mobile { padding: 24px 20px; }
 }
