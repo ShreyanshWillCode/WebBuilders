@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -31,9 +31,12 @@ export default function Navbar() {
   return (
     <nav className={`nav${scrolled ? " nav--scrolled" : ""}`} id="navbar">
       <div className="nav__inner">
-        <div className="nav__brand">
-          <span className="nav__logo">WEBBUILDERS.DEV</span>
-          <span className="nav__sub">WEB &amp; ANDROID DEVELOPMENT AGENCY</span>
+        <div className="nav__brand-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img src="/logo.png" alt="WebBuilders Logo" style={{ height: '32px', width: 'auto', display: 'block' }} />
+          <div className="nav__brand">
+            <span className="nav__logo">WEBBUILDERS.DEV</span>
+            <span className="nav__sub">WEB &amp; ANDROID DEVELOPMENT AGENCY</span>
+          </div>
         </div>
 
         <ul className="nav__links">
